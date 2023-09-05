@@ -22,10 +22,10 @@ def rent_book(request, book_id):
         rental.save()
         book.stock -= 1
         book.save()
+        return redirect('books:book_list')
     else:
         messages.error(request, f'{book.title} is no stock.')
         return redirect('books:book_list')
-    return render(request, 'books/my_rentals.html')
 
 
 def return_book(request, rental_id):
@@ -35,3 +35,8 @@ def return_book(request, rental_id):
     book.stock += 1
     book.save()
     return redirect('books:book_list')
+
+
+def rental_list(request):
+    rentals = Rental.objects.filter(user=request.user)
+    return render(request, 'books/rental_list.html', {'rentals': rentals})

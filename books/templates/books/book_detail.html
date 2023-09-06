@@ -10,4 +10,8 @@
         <li>{{ book.stock }}</li>
         <li>{{ book.summary }}</li>
     </ul>
+    <form action="{% url 'books:rent_book' book.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="rental">
+    </form>
 {% endblock content %}

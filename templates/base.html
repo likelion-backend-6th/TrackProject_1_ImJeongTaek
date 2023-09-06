@@ -10,6 +10,17 @@
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
+<a href="{% url 'books:book_list' %}">Home</a>
+{% if request.user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Logout">
+    </form>
+    <a href="{% url 'books:rental_list' %}">{{ request.user.name }} rental list</a>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Register</a>
+{% endif %}
 {% block content %}
 {% endblock content %}
 

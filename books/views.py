@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
+from books.forms import SearchForm
 from books.models import Book, Rental
 
 
@@ -33,3 +34,17 @@ def rent_book(request, book_id):
 def rental_list(request):
     rentals = Rental.objects.filter(user=request.user)
     return render(request, 'books/rental_list.html', {'rentals': rentals})
+
+
+def book_search(request):
+    if request.method == 'GET':
+        form = SearchForm()
+    else:
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = request.POST.get('query', '')
+            books = Book.objects.filter(title__icontains=query)
+        else:
+            books = []
+
+    return render(request, 'books/book_search.html', {'form': form, 'books': books})

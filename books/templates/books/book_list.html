@@ -4,6 +4,11 @@
 
 {% block content %}
     <h1>Book List</h1>
+    <form method="post" action="{% url 'books:book_search' %}">
+        {% csrf_token %}
+        <input type="text" name="query" placeholder="검색어를 입력하세요">
+        <input type="submit" value="Search">
+    </form>
     <ul>
         {% for book in books %}
             <li>
@@ -11,4 +16,4 @@
             </li>
         {% endfor %}
     </ul>
-{% endblock content%}
+{% endblock content %}

@@ -12,7 +12,8 @@
                 {{ book.author }}
             </h6>
             <p class="card-text">
-                {{ book.publisher }}
+                {{ book.publisher|linebreaks }}
+                remaining stock: {{ book.stock }}
             </p>
             <form action="{% url 'books:rent_book' book.id %}" method="post">
                 {% csrf_token %}

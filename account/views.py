@@ -1,8 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+
+from account.forms import CustomRegistrationForm
 
 
 class CustomLoginView(LoginView):
@@ -12,7 +13,14 @@ class CustomLoginView(LoginView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/register.html'
+def register(request):
+    if request.method == 'POST':
+        form = CustomRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password2'])
+            new_user.save()
+            return redirect('login')
+    else:
+        form = CustomRegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})

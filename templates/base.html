@@ -16,11 +16,13 @@
         <div class="d-flex flex-direction-row justify-content-between">
             <div class="me-3">
                 {% if request.user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <input type="submit" value="Logout">
-                    </form>
-                    <a href="{% url 'books:rental_list' %}">{{ request.user.name }} rental list</a>
+                    <div class="d-flex align-items-center">
+                        <a href="{% url 'books:rental_list' %}" style="margin-right: 10px;">My Rental List</a>
+                        <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-danger" value="Logout">
+                        </form>
+                    </div>
                 {% else %}
                     <a href="{% url 'login' %}">Login</a>
                     <a href="{% url 'register' %}">Register</a>

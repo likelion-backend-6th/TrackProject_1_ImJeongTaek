@@ -3,16 +3,23 @@
 {% block title %}Search{% endblock title %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Search">
-    </form>
-
-    <h2>Search Results</h2>
+    <h1 class="d-flex justify-content-left">Search Results</h1>
     <ul>
         {% for book in books %}
-            <li>{{ book.title }} by {{ book.author }}</li>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'books:book_detail' book.id %}">{{ book.title }}</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {{ book.author }}
+                    </h6>
+                    <p class="card-text">
+                        {{ book.publisher|linebreaks }}
+                        remaining stock: {{ book.stock }}
+                    </p>
+                </div>
+            </div>
         {% empty %}
             <li>No results found.</li>
         {% endfor %}

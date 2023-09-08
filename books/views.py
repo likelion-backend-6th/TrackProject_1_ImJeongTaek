@@ -47,4 +47,4 @@ def book_search(request):
         else:
             books = []
 
-    return render(request, 'books/book_search.html', {'form': form, 'books': books})
+        return render(request, 'books/book_search.html', {'books': books})

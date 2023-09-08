@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 
 from books.forms import SearchForm
@@ -8,6 +9,15 @@ from books.models import Book, Rental
 
 def book_list(request):
     books = Book.objects.all()
+    per_page = request.GET.get('per_page', 3)
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(books, per_page, orphans=1)
+    try:
+        books = paginator.page(page_number)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
     return render(request, 'books/book_list.html', {'books': books})
 
 

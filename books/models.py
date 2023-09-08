@@ -10,6 +10,9 @@ class Book(models.Model):
     stock = models.PositiveIntegerField()
     summary = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ['title']
+
     def __str__(self):
         return self.title
 

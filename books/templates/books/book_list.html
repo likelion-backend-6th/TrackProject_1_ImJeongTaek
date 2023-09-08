@@ -11,7 +11,7 @@
     </form>
     <ul>
         {% for book in books %}
-            <div class="card mt-3">
+            <div class="card mt-3" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="{% url 'books:book_detail' book.id %}">{{ book.title }}</a>

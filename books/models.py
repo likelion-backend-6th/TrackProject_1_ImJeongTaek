@@ -9,7 +9,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     publisher = models.CharField(max_length=200)
-    stock = models.PositiveIntegerField()
+    stock = models.IntegerField(default=0)
     summary = models.TextField(blank=True)
 
     class Meta:
@@ -21,9 +21,9 @@ class Book(models.Model):
 
 class Rental(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='books')
+    book = models.ForeignKey(Book, on_delete=models.SET_NULL, related_name='books', null=True)
     rental_date = models.DateField(auto_now_add=True)
-    return_date = models.DateField(default=timezone.now() + timezone.timedelta(days=7))
+    return_date = models.DateField(null=True, blank=True)
 
     class Meta:
         ordering = ['rental_date']

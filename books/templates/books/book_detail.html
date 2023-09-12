@@ -15,10 +15,16 @@
                 {{ book.publisher|linebreaks }}
                 remaining stock: {{ book.stock }}
             </p>
+            {% if book.stock %}
             <form action="{% url 'books:rent_book' book.id %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="rental" class="btn btn-primary">
             </form>
+            {% else %}
+                <p>
+                    Out of stock.
+                </p>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
